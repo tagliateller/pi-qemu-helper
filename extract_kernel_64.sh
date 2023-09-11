@@ -13,7 +13,7 @@
 #cp: cannot stat '/tmp/qemuhelper.QGJqGb/kernel7.img': No such file or directory
 #cp: cannot stat '/tmp/qemuhelper.QGJqGb/bcm2709-rpi-2-b.dtb': No such file or directory
 
-BOOT_FILES="kernel8.img bcm2710-rpi-3-b.dtb  \
+BOOT_FILES="kernel8.img bcm2710-rpi-3-b.dtb bcm2710-rpi-3-b-plus.dtb \
             cmdline.txt"
 
 # --- write message to stderr   --------------------------------------------
@@ -78,6 +78,9 @@ msg "info: copying files from boot-partition"
 for f in $BOOT_FILES; do
   cp -a "$srcMount/$f" "$srcDir/"
 done
+
+msg "set password and user"
+echo 'pi:$6$rBoByrWRKMY1EHFy$ho.LISnfm83CLBWBE/yqJ6Lq1TinRlxw/ImMTPcvvMuUfhQYcMmFnpFXUPowjy2br1NA0IACwF9JKugSNuHoe0' | sudo tee "$srcMount/userconf.txt" 
 
 msg "info: cleanup of loop-mount"
 umount "$srcMount"
